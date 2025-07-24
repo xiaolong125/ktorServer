@@ -9,11 +9,19 @@ object Database {
 
     fun initDatabase() {
 
+        val dbPort = System.getenv("DB_PORT") ?: "3306"
+        val dbName = System.getenv("DB_NAME") ?: "bookdb"
+        val dbUser = System.getenv("DB_USER") ?: "ktoruser"
+        val dbPassword = System.getenv("DB_PASSWORD") ?: "ktorpass"
+
+        val jdbcUrl = "jdbc:mysql://mysql:$dbPort/$dbName?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC"
+
+
         Database.connect(
-            url = "jdbc:mysql://localhost:3306/bookdb?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true",
+            jdbcUrl,
             driver = "com.mysql.cj.jdbc.Driver",
-            user = "ktoruser",
-            password = "ktorpass"
+            user = dbUser,
+            password = dbPassword
         )
 
         transaction {
